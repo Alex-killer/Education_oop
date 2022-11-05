@@ -1,23 +1,18 @@
 <?php
-require_once 'functions.php';
-require_once 'database/QueryBuilder.php';
+include __DIR__ . '/../functions.php';
 
-$pdo = connectToDb();
+$routes = [
+    "/" => 'functions/homepage.php',
+    "/about" => 'functions/about.php'
+];
 
-$db = new QueryBuilder($pdo);
-$posts = $db->getAll();
+$route = $_SERVER['REQUEST_URI'];
+
+if (array_key_exists($route, $routes)) {
+    include __DIR__ . '/../' . $routes[$route]; exit;
+} else {
+    dd(404);
+}
 
 
-//$posts = getAllPosts($pdo);
-
-require_once 'index.view.php';
-?>
-<?php
-//$pdo = new PDO('mysql:host=mysql;dbname:test;charset=utf8', 'root', 'root');
-//
-//$sql = 'SELECT * FROM posts';
-//$statement = $pdo->prepare($sql);
-//$statement->execute();
-//$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
-//?>
 
